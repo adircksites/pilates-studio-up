@@ -1,0 +1,35 @@
+name: Publicar Studio Up
+
+on:
+  push:
+    branches: [main]
+    paths: [pilates-studio-up.zip]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+      - name: Extrair o site
+        run: |
+          unzip -q pilates-studio-up.zip -d site
+          test -f site/pilates-studio-up/index.html
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/pilates-studio-up
+      - id: deployment
+        uses: actions/deploy-pages@v4
