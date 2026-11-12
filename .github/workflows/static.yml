@@ -3,7 +3,7 @@ name: Publicar Studio Up
 on:
   push:
     branches: [main]
-    paths: [pilates-studio-up.zip]
+    paths: [studio-up-oficial.zip, '.github/workflows/static.yml']
   workflow_dispatch:
 
 permissions:
@@ -26,7 +26,7 @@ jobs:
       - uses: actions/configure-pages@v5
       - name: Extrair o site
         run: |
-          unzip -q pilates-studio-up.zip -d site
+          unzip -q studio-up-oficial.zip -d site
           test -f site/pilates-studio-up/index.html
       - uses: actions/upload-pages-artifact@v4
         with:
